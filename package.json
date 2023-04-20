@@ -1,0 +1,19 @@
+{
+  "name": "refactoring",
+  "version": "1.0.0",
+  "description": "Learning refactoring",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "refactoring",
+    "js",
+    "development"
+  ],
+  "author": "Heiner Nuñez",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
