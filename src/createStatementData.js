@@ -6,14 +6,6 @@ function createStatementData(invoice, plays) {
     statementData.totalVolumeCredits = totalVolumeCredits(statementData);
     return statementData;
 
-    function totalAmount(data) {
-        return data.performances.reduce((total, p) => total + p.amount, 0);
-    }
-
-    function totalVolumeCredits(data) {
-        return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
-    }
-
     function enrichPerformance(aPerformance) {
         const calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
@@ -23,28 +15,25 @@ function createStatementData(invoice, plays) {
         return result;
     }
 
-    function createPerformanceCalculator(aPerformance, aPlay) {
-        switch (aPlay.type) {
-            case "tragedy": return new TragedyCalculator(aPerformance, aPlay);
-            case "comedy": return new ComedyCalculator(aPerformance, aPlay);
-            default:
-                throw new Error(`unknown type: ${aPlay.type}`);
-        }
-    }
-
-    function volumeCreditsFor(aPerformance) {
-        let result = 0;
-        result += Math.max(aPerformance.audience - 30, 0);
-        if ("comedy" === aPerformance.play.type) result += Math.floor(aPerformance.audience / 5);
-        return result;
-    }
-
-    function amountFor(aPerformance) {
-        return new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-    }
-
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
+    }
+
+    function totalAmount(data) {
+        return data.performances.reduce((total, p) => total + p.amount, 0);
+    }
+
+    function totalVolumeCredits(data) {
+        return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
+    }
+}
+
+function createPerformanceCalculator(aPerformance, aPlay) {
+    switch (aPlay.type) {
+        case "tragedy": return new TragedyCalculator(aPerformance, aPlay);
+        case "comedy": return new ComedyCalculator(aPerformance, aPlay);
+        default:
+            throw new Error(`unknown type: ${aPlay.type}`);
     }
 }
 
